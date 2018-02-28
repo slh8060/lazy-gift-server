@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>Login</h1>
+<form action="">
+  <div class="">
+    <label for="">userName:</label>
+    <input class="name-ipt" type="text">
+  </div>
+  <div class="">
+    <label for="">userPwd:</label>
+    <input class="pwd-ipt" type="password">
+  </div>
+  <div>
+    <a type="button" href="/regist.json">regist</a>
+    <input class="submit" value="submit" type="button"/>
+    <button type="reset">reset</button>
+  </div>
+
+
+</form>
+
+
+<script src="libs/jquery/v1.12.4/jquery.min.js"></script>
+<script src="libs/jquery.base64/jquery.base64.js"></script>
+<script src="src/js/common.js"></script>
+
+<script>
+  $(function () {
+    $('.submit').on('click', function () {
+      var name = $('.name-ipt').val();
+      var pwd = $('.pwd-ipt').val();
+      var data = {
+        "username": name,
+        "userpwd": pwd,
+      };
+      //     var dataBase64=encodeBase64(JSON.stringify(data));//eyJ1c2VybmFtZSI6InF6cyIsInVzZXJwd2QiOiIxMjMifQ==
+      $.ajax({
+        url: "/login.json",
+        type: 'post',
+        data: data,
+        success: function (results) {
+          if (results.code == 200) {
+//            var cookie = new Cookie(name, results.userToken);
+//            cookie.setMaxAge;
+            alert('登录成功,' + results);
+            console.log(results);
+          } else {
+            alert(results.errorMsg);
+          }
+        },
+        error: function (error) {
+          alert('error:' + error);
+        }
+      })
+    })
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<h1>gift</h1>
+
+
+<button class="insertOneBtn">发布</button>
+<button class="getInfoBtn">详情</button>
+<button class="recommend">推荐</button>
+<button class="interest">👍／不👍</button>
+<button class="collect">收藏</button>
+<button class="collectList">收藏列表</button>
+<hr/>
+<button class="comment">评论</button>
+<button class="commentList">评论列表</button>
+<hr/>
+<button class="myMessageComment">我的评论消息</button>
+<button class="test">test</button>
+
+
+
+
+
+
+<script src="libs/jquery/v1.12.4/jquery.min.js"></script>
+<script src="libs/jquery.base64/jquery.base64.js"></script>
+<script src="src/js/common.js"></script>
+
+<script>
+
+  $(function () {
+
+    $('.test').on('click',function () {
+      $.ajax({
+        url: 'http://192.168.199.209:8080/getUser.do',
+        type: "post",
+         dataType: "json",
+//        headers: {
+//          'Content-Type': 'application/json'
+//        },
+        data: JSON.stringify({
+          'name': '11qqq',
+          'pwd': '111'
+        })
+      })
+    });
+
+    //我的评论消息
+    $('.myMessageComment').on('click',function () {
+      var p = {
+         "userId": 11
+      };
+      $.ajax({
+        url: "/myMessageComment.json",
+        type: "post",
+        data: p,
+        success: function (results) {
+          console.log(results);
+        }
+      })
+    });
+
+
+    //发布
+    $('.insertOneBtn').on('click', function () {
+      var items = [
+        {
+          "detail_level": 1,
+          "brief": "烧烤工具",
+          "content": "qsqqqqqq"
+        },
+        {
+          "detail_level": 2,
+          "brief": "烧烤食材",
+          "content": "啊啊啊啊啊啊"
+        },{
+          "detail_level": 3,
+          "brief": "烧烤调味料",
+          "content": "等等等等等等"
+        }
+      ];
+
+      var p = {
+        "uname": "slh",
+        "title": "去烧烤要带什么",
+        "items": items
+      };
+      p = JSON.stringify(p);
+      $.ajax({
+        url: '/publish.json',
+        type: "post",
+        data:{
+          'p': p
+        },
+        success: function (results) {
+          console.log(results);
+        }
+      })
+    });
+
+    //详情
+    $('.getInfoBtn').on('click', function () {
+      var p = {
+        "detailId": 107,
+       // "userId": 5
+      };
+      $.ajax({
+        url: "/detail.json",
+        type: "post",
+        data: p,
+        success: function (results) {
+          console.log(results);
+        }
+      })
+    });
+
+    //推荐
+    $('.recommend').on('click', function () {
+      var p = {
+        "start": 1,
+        //"limit": 50,
+       // "firstTime": "2017-11-15T02:42:22.263Z",
+        "userId": 5
+      };
+      $.ajax({
+        url: "/recommend.json",
+        type: "post",
+        data: p,
+        success: function (results) {
+          console.log(results);
+          $('.detail').text(results);
+        }
+      })
+    });
+
+    //赞／不赞
+    $('.interest').on('click',function () {
+      var p = {
+        "userId": 5,
+        "detailId": 113,
+        "isApprove": 1
+      };
+      $.ajax({
+        url: '/approve.json',
+        type: "post",
+        data: p,
+        success: function (data) {
+          console.log(data);
+        }
+      })
+    });
+
+    //收藏列表
+    $('.collect').on('click',function () {
+      var p = {
+        "userId": 5,
+        "detail_id": 57,
+        "is_collect": true
+      };
+      $.ajax({
+        url: '/collect.json',
+        type: "post",
+        data: {
+          "p": JSON.stringify(p)
+        },
+        success: function (data) {
+          console.log(data);
+        }
+      })
+    });
+
+    //收藏列表
+    $('.collectList').on('click',function () {
+      var p = {
+        "userId": 5
+      };
+      $.ajax({
+        url: '/collectList.json',
+        type: "post",
+        data: p,
+        success: function (data) {
+          console.log(data);
+        }
+      })
+    });
+
+    //评论
+    $('.comment').on('click',function () {
+      var p = {
+        "detailId": 107,
+        "ownerUserId": 7,
+        "targetUserId": 11,
+        "parentId": 35,
+        "rootId": 35,
+        "content": "没错",
+      };
+      $.ajax({
+        url: '/comment.json',
+        type: "post",
+        data: {
+          "p": JSON.stringify(p)
+        },
+        success: function (data) {
+          console.log(data);
+        }
+      })
+    });
+
+    //评论列表
+    $('.commentList').on('click',function () {
+      var p = {
+        "detailId": 107
+      };
+      $.ajax({
+        url: '/commentList.json',
+        type: "post",
+        data: p,
+        success: function (data) {
+          console.log(data);
+        }
+      })
+    });
+
+
+  })
+</script>
+</body>
+</html>

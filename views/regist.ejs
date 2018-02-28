@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Regist</h1>
+<form action="">
+    <div class="">
+        <label for="">userName:</label>
+        <input class="name-ipt" type="text">
+    </div>
+    <div class="">
+        <label for="">userPwd:</label>
+        <input class="pwd-ipt" type="password">
+    </div>
+    <div>
+        <button class="regist" >regist</button>
+        <button type="reset">reset</button>
+    </div>
+</form>
+<script src="libs/jquery/v1.12.4/jquery.min.js"></script>
+<script src="libs/jquery.base64/jquery.base64.js"></script>
+<script src="src/js/common.js"></script>
+
+<script>
+    $(function () {
+
+        $('.regist').on('click',function () {
+            var registname = $('.name-ipt').val();
+            var registpwd = $('.pwd-ipt').val();
+            var data = {
+                "username":registname,
+                "userpwd":registpwd
+            };
+            var dataBase64 = encodeBase64(JSON.stringify(data));
+            $.ajax({
+                url:"/regist.json",
+                type:"post",
+                data:{
+                    "p":dataBase64
+                },
+                success:function (results) {
+                    if (results.code == 200){
+                        alert('注册成功');
+                        location.href = "/login.json";
+                    } else {
+                        alert(results.errorMsg);
+                    }
+                }
+
+            })
+        });
+    })
+</script>
+</body>
+</html>

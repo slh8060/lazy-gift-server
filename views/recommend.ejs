@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<h1>gift</h1>
+<div class="detail"></div>
+
+
+<button class="recommend">推荐</button>
+
+
+<script src="libs/jquery/v1.12.4/jquery.min.js"></script>
+<script src="libs/jquery.base64/jquery.base64.js"></script>
+<script src="src/js/common.js"></script>
+
+<script>
+
+  $(function () {
+
+
+    $('.recommend').on('click', function () {
+      var p = {
+        "start": 1,
+        "limit": 7,
+        "firstTime": "2017-11-15T02:42:22.263Z"
+      };
+      $.ajax({
+        url: "/recommend.json",
+        type: "post",
+        data: {
+          "p": JSON.stringify(p)
+        },
+        success: function (results) {
+          console.log(results);
+          $('.detail').text(results);
+        }
+      })
+    })
+  })
+</script>
+</body>
+</html>
