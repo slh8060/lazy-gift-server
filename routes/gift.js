@@ -19,9 +19,6 @@ let dbUtil = new DbUtil();
 //router.use(routerMiddle);
 
 
-// router.get('/gift.json',RouterUtil.getFunction(function (req, res) {
-//   res.render('gift');
-// }));
 
 router.get('/gift.json', function (req, res, next) {
   res.render('gift');
@@ -60,99 +57,10 @@ router.post('/detail.json', function (req, res) {
       }
     });
 
-    // dbUtil.query(giftSQL.selectDetailItem, detailId, function (result) {
-    //   let items = [];
-    //   for (let i = 0; i < result.length; i++) {
-    //     let item = {};
-    //     item.detail_level = result[i].detail_level;
-    //     item.brief = result[i].brief;
-    //     item.content = result[i].content;
-    //     items.push(item);
-    //   }
-    //   results.result[0].items = items;
-    //   if (typeof userId != "undefined") {
-    //     dbUtil.query(giftSQL.selectDetailOneIsApprove, [detailId, userId], function (result) {
-    //       results.result[0].is_approve = result[0].is_approve;
-    //       res.send(results);
-    //     })
-    //   } else {
-    //     results.result[0].is_approve = 0;
-    //     res.send(results);
-    //   }
-    // });
   });
   dbUtil.release();
 
-  // pool.getConnection(function (err, connection) {
-  //   query(connection, giftSQL.selectDetailOne, detailId).then(result => {
-  //     results.success = true;
-  //     results.result = result;
-  //     results.result[0].items = [];
-  //     query(connection, giftSQL.selectDetailItem, detailId).then(result => {
-  //       let items = [];
-  //       for (let i = 0; i < result.length; i++) {
-  //         let item = {};
-  //         item.detail_level = result[i].detail_level;
-  //         item.brief = result[i].brief;
-  //         item.content = result[i].content;
-  //         items.push(item);
-  //       }
-  //       results.result[0].items = items;
-  //       if (typeof userId != "undefined") {
-  //         query(connection, giftSQL.selectDetailOneIsinterest, [detailId, userId]).then(result => {
-  //           results.result[0].is_approve = result[0].is_approve;
-  //           res.send(results);
-  //           connection.release();
-  //         })
-  //       } else {
-  //         results.result[0].is_approve = 0;
-  //         res.send(results);
-  //         connection.release();
-  //       }
-  //     });
-  //   }).catch(err => {
-  //     results.success = false;
-  //     results.message = err.message;
-  //     res.send(results);
-  //     connection.release();
-  //
-  //   })
-  // });
 
-  // pool.getConnection(function (err, connection) {
-  //   connection.query(giftSQL.selectDetailOne, detailId, function (err, result) {
-  //     if (err) {
-  //       results.success = false;
-  //       results.message = err.message;
-  //     } else {
-  //       results.success = true;
-  //       results.result = result;
-  //       results.result[0].items = [];
-  //       connection.query(giftSQL.selectDetailItem, detailId, function (err, result) {
-  //         let items = [];
-  //         for (let i = 0; i < result.length; i++) {
-  //           let item = {};
-  //           item.detail_level = result[i].detail_level;
-  //           item.brief = result[i].brief;
-  //           item.content = result[i].content;
-  //           items.push(item);
-  //         }
-  //         results.result[0].items = items;
-  //
-  //         if (typeof userId != "undefined") {
-  //           connection.query(giftSQL.selectDetailOneIsinterest,[detailId, userId],function (err,result) {
-  //             results.result[0].is_approve = result[0].is_approve;
-  //             res.send(results);
-  //           })
-  //         } else {
-  //           results.result[0].is_approve = 0;
-  //           res.send(results);
-  //         }
-  //       });
-  //     }
-  //     connection.release();
-  //   })
-  // })
 });
 
 
@@ -163,8 +71,6 @@ router.post('/recommend.json', function (req, res) {
     limit = 20, //param.limit,
     userId = param.userId,
     firstTime, results = {};
-  console.log('zzzzz',start,userId);
-
   if (typeof param.firstTime != "undefined") {
     firstTime = param.firstTime;
   } else {
@@ -208,62 +114,6 @@ router.post('/recommend.json', function (req, res) {
     }
   });
   dbUtil.release();
-
-
-  // pool.getConnection(function (err, connection) {
-  //   connection.query(giftSQL.selectDetailAll, [firstTime, (start - 1) * limit, limit], function (err, result) {
-  //     if (err) {
-  //       results.success = false;
-  //       results.message = err.message;
-  //       res.send(results);
-  //     } else {
-  //
-  //       if (result.length == 0) {
-  //         results.cuccess = false;
-  //         results.message = "没有更多数据";
-  //         res.send(results);
-  //       } else {
-  //         results.success = true;
-  //         results.firstTime = firstTime;
-  //         results.result = result;
-  //
-  //         var callback = new AsyncCallback(result.length, function () {
-  //           res.send(results);
-  //           connection.release();
-  //         });
-  //
-  //         for (let i = 0; i < result.length; i++) {
-  //           let items = [];
-  //           connection.query(giftSQL.selectDetailItem, result[i].id, function (err, result) {
-  //             if (result.length != 0) {
-  //               for (let j = 0; j < result.length; j++) {
-  //                 let item = {};
-  //                 item.detail_level = result[j].detail_level;
-  //                 item.brief = result[j].brief;
-  //                 item.content = result[j].content;
-  //                 items.push(item);
-  //               }
-  //               results.result[i].items = items;
-  //
-  //               if (typeof userId != 'undefined') {
-  //                 connection.query(giftSQL.selectDetailOneIsinterest, [result[i].id, userId], function (err, result) {
-  //                   console.log('------', result);
-  //                   console.log(result.is_approve);
-  //                   // results.result[i].is_approve = result[0].is_approve;
-  //                 })
-  //               } else {
-  //                 results.result[i].is_approve = 0;
-  //               }
-  //             } else {
-  //               results.result[i].items = [];
-  //             }
-  //             callback.exect();
-  //           });
-  //         }
-  //       }
-  //     }
-  //   })
-  // });
 });
 
 //发布
@@ -320,33 +170,43 @@ router.post('/approve.json', function (req, res) {
         dbUtil.query(giftSQL.updateDetailApprove, [isApprove, userId, detailId], function (result) {
           if (isApprove == 1) {
             dbUtil.query(giftSQL.addApproveNum, detailId, function (result) {
-              //不作任何评论
-              results.success = true;
-              results.detailId = detailId;
-              results.isApprove = isApprove;
-              res.send(results);
+              dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
+                results.agree_count = result[0].agree_count;
+                results.unagree_count = result[0].unagree_count;
+                results.detailId = detailId;
+                results.isApprove = isApprove;
+                results.success = true;
+                res.send(results);
+              });
             })
           } else if (isApprove == -1) {
-            dbUtil.query(giftSQL.addUnapproveNum, detailId, function (result) {
-              //不作任何评论
-              results.success = true;
+            dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
+              results.agree_count = result[0].agree_count;
+              results.unagree_count = result[0].unagree_count;
               results.detailId = detailId;
               results.isApprove = isApprove;
+              results.success = true;
               res.send(results);
-            })
+            });
           } else {
             beforeIsApprove == 1 ? dbUtil.query(giftSQL.subApproveNum, detailId, function (result) {
-              //不作任何评论
-              results.success = true;
-              results.detailId = detailId;
-              results.isApprove = isApprove;
-              res.send(results);
+              dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
+                results.agree_count = result[0].agree_count;
+                results.unagree_count = result[0].unagree_count;
+                results.detailId = detailId;
+                results.isApprove = isApprove;
+                results.success = true;
+                res.send(results);
+              });
             }) : dbUtil.query(giftSQL.subUnapproveNum, detailId, function (result) {
-              //不作任何评论
-              results.success = true;
-              results.detailId = detailId;
-              results.isApprove = isApprove;
-              res.send(results);
+              dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
+                results.agree_count = result[0].agree_count;
+                results.unagree_count = result[0].unagree_count;
+                results.detailId = detailId;
+                results.isApprove = isApprove;
+                results.success = true;
+                res.send(results);
+              });
             })
           }
 
@@ -355,15 +215,23 @@ router.post('/approve.json', function (req, res) {
     } else {
       dbUtil.query(giftSQL.insertDetailApprove, [userId, detailId, isApprove], function (result) {
         isApprove == 1 ? dbUtil.query(giftSQL.addApproveNum, detailId, function (result) {
-          results.success = true;
-          results.isApprove = isApprove;
-          results.detailId = detailId;
-          res.send(results);
+          dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
+            results.agree_count = result[0].agree_count;
+            results.unagree_count = result[0].unagree_count;
+            results.detailId = detailId;
+            results.isApprove = isApprove;
+            results.success = true;
+            res.send(results);
+          });
           }) : dbUtil.query(giftSQL.addUnapproveNum, detailId, function (result) {
-          results.success = true;
-          results.isApprove = isApprove;
-          results.detailId = detailId;
-          res.send(results);
+          dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
+            results.agree_count = result[0].agree_count;
+            results.unagree_count = result[0].unagree_count;
+            results.detailId = detailId;
+            results.isApprove = isApprove;
+            results.success = true;
+            res.send(results);
+          });
         });
 
       });
@@ -442,28 +310,6 @@ router.post('/collectList.json', function (req, res) {
               callback.exect();
             }
           })
-
-          // dbUtil.query(giftSQL.selectDetailItem, detailId, function (result) {
-          //   let items = [];
-          //   for (let i = 0; i < result.length; i++) {
-          //     let item = {};
-          //     item.detail_level = result[i].detail_level;
-          //     item.brief = result[i].brief;
-          //     item.content = result[i].content;
-          //     items.push(item);
-          //   }
-          //   results.result[0].items = items;
-          //   if (typeof userId != "undefined") {
-          //     dbUtil.query(giftSQL.selectDetailOneIsApprove, [detailId, userId], function (result) {
-          //       results.result[0].is_approve = result[0].is_approve;
-          //       res.send(results);
-          //     })
-          //   } else {
-          //     results.result[0].is_approve = 0;
-          //     res.send(results);
-          //   }
-          // });
-
         })
       }
     }

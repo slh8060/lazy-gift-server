@@ -16,7 +16,11 @@
 <button class="insertOneBtn">发布</button>
 <button class="getInfoBtn">详情</button>
 <button class="recommend">推荐</button>
+<hr/>
+<label for="">赞不赞</label>
+<input type="text" class="faver">
 <button class="interest">👍／不👍</button>
+<hr/>
 <button class="collect">收藏</button>
 <button class="collectList">收藏列表</button>
 <hr/>
@@ -144,10 +148,11 @@
 
     //赞／不赞
     $('.interest').on('click',function () {
+        var val = $('.faver').val();
       var p = {
         "userId": 5,
         "detailId": 113,
-        "isApprove": 1
+        "isApprove": val
       };
       $.ajax({
         url: '/approve.json',

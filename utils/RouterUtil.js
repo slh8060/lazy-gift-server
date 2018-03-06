@@ -7,7 +7,6 @@ function routerMiddle() {
     if (req.method == "POST"){
       req = req.body;
     }
-      // req.p = JSON.parse(req.body);
     next();
   };
 }

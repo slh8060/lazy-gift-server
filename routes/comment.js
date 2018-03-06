@@ -35,7 +35,6 @@ router.post('/commentList.json', function (req, res) {
 
     result.forEach(function (item, index) {
       dbUtil.query(commentSQL.selectReply, item.id, function (result) {
-        console.log('----',index,item);
         if (result.length != 0) {
           results[index].reply = result;
         }
@@ -91,44 +90,6 @@ router.post('/comment.json', function (req, res) {
     })
 
   }
-
-
-  // if (typeof targetUserId == "undefined"){  //评论
-  //   dbUtil.query(giftSQL.selectDetailOne,detailId,function (result) {
-  //     targetUserId = result[0].user_id;
-  //     dbUtil.query(commentSQL.insertComment,[detailId,ownerUserId,targetUserId,content],function (result) {
-  //       rerults.ownerUserId = ownerUserId;
-  //       rerults.targetUserId = targetUserId;
-  //       rerults.commentId = result.insertId;
-  //       dbUtil.query(commentSQL.insertMyMessage, [targetUserId, targetTableId, targetTableName], function (result) {
-  //           dbUtil.query(commentSQL.insertMessageComment, [detailId,ownerUserId, targetUserId], function (result) {
-  //             rerults.success = true;
-  //             res.send(rerults);
-  //
-  //           })
-  //         });
-  //
-  //
-  //     });
-  //
-  //   });
-  //
-  //
-  // } else {   //回复
-  //   dbUtil.query(commentSQL.insertCommentReply,[detailId,ownerUserId,targetUserId,parentId,content],function (result) {
-  //     rerults.ownerUserId = ownerUserId;
-  //     rerults.commentId = result.insertId;
-  //     rerults.targetUserId = targetUserId;
-  //     dbUtil.query(commentSQL.insertMyMessage, [targetUserId,targetTableId,targetTableName], function (result) {
-  //       dbUtil.query(commentSQL.insertMessageComment,[detailId,ownerUserId,targetUserId], function (result) {
-  //         rerults.success = true;
-  //         res.send(rerults);
-  //       })
-  //     });
-  //   });
-  // }
-
-
 });
 
 

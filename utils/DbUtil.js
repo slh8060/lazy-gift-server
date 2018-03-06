@@ -56,16 +56,4 @@ class DbUtil {
   }
 }
 
-
-//promise
-// function query(connection, sql, param) {
-//   return new Promise(function (resolve, reject) {
-//     connection.query(sql, param, function (err, result) {
-//       if (err)
-//         return reject(err);
-//       resolve(result);
-//     })
-//   })
-// }
-
 module.exports = DbUtil;
