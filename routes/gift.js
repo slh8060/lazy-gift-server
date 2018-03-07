@@ -296,7 +296,6 @@ router.post('/collectList.json', function (req, res) {
           result[i].date = commonUtil.getTime(differ,publishDate);
 
           results.result[0].items = [];
-          //throw new Error("999");
 
           giftUtil.getDetailItem(detailId, function (items) {
             results.result[i].items = items;
