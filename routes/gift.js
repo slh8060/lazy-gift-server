@@ -149,7 +149,7 @@ router.post('/approve.json', function (req, res) {
   dbUtil.query(giftSQL.selectDetailOneIsApprove, [detailId, userId], function (result) {
     if (result.length != 0) {
       let beforeIsApprove = result[0].is_approve;
-      if (result[0].is_approve == isApprove) {
+      if (result[0].is_approve == isApprove) {   //客户端和服务端状态一致
         results.success = true;
         results.isApprove = result[0].is_approve;
         results.detailId = detailId;
@@ -168,7 +168,7 @@ router.post('/approve.json', function (req, res) {
         res.send(results);
       } else {
         dbUtil.query(giftSQL.updateDetailApprove, [isApprove, userId, detailId], function (result) {
-          if (isApprove == 1) {
+          if (isApprove == 1) {  //赞
             dbUtil.query(giftSQL.addApproveNum, detailId, function (result) {
               dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
                 results.agree_count = result[0].agree_count;
@@ -179,14 +179,16 @@ router.post('/approve.json', function (req, res) {
                 res.send(results);
               });
             })
-          } else if (isApprove == -1) {
-            dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
-              results.agree_count = result[0].agree_count;
-              results.unagree_count = result[0].unagree_count;
-              results.detailId = detailId;
-              results.isApprove = isApprove;
-              results.success = true;
-              res.send(results);
+          } else if (isApprove == -1) { //不赞
+            dbUtil.query(giftSQL.addUnapproveNum, detailId, function (result) {
+              dbUtil.query(giftSQL.queryDetailOne, detailId, function (result) {
+                  results.agree_count = result[0].agree_count;
+                  results.unagree_count = result[0].unagree_count;
+                  results.detailId = detailId;
+                  results.isApprove = isApprove;
+                  results.success = true;
+                  res.send(results);
+              })
             });
           } else {
             beforeIsApprove == 1 ? dbUtil.query(giftSQL.subApproveNum, detailId, function (result) {
